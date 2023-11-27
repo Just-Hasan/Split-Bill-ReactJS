@@ -28,6 +28,7 @@ const friendsData = [
 export default function App() {
   /////////////////////////////////////[For showing & displaying Add Friend Form]
   const [showAddFriend, setShowAddFriend] = useState(false);
+
   function handleShowFriend() {
     setShowAddFriend(() => !showAddFriend);
   }
@@ -43,7 +44,7 @@ export default function App() {
 
   function handleAddFriend(e) {
     e.preventDefault();
-    if (!friendsName) return;
+    if (!friendsName || !imageUrl) return;
     const newFriend = {
       id: Date.now(),
       name: friendsName,
@@ -53,12 +54,13 @@ export default function App() {
     setFriendsName("");
     setImageUrl("");
     AddFriend(newFriend);
+    setShowAddFriend(() => !showAddFriend);
   }
 
   /////////////////////////////////////[Delete Friend]
-  function handleDeleteFriend(newFriend) {
+  function handleDeleteFriend(friendsToDelete) {
     setFriends((currentFriends) =>
-      currentFriends.filter((friend) => friend.id !== newFriend.id)
+      currentFriends.filter((friend) => friend.id !== friendsToDelete.id)
     );
   }
 
@@ -68,13 +70,31 @@ export default function App() {
   2. Ketika kita click select, maka object tersebut yang akan tampil sebagai yang terpilih
   3. Kita melakukan derived state terhadap 'selectedFriend' yang merupakan sebuah ID, dan mencari
      teman dengan id yang serupa
+  4. splitBillWith adalah variable yang berisi object yang memiliki id sama dengan 
+     selectedFriend.
   */
   const [selectedFriend, setSelectedFriend] = useState(null);
   const splitBillWith = friends.find((friend) => friend.id === selectedFriend);
   console.log(splitBillWith);
 
+  /*
+  /////////////////////////////////////[checkCurrentFriend] Logic :
+  1. Function ini menerima satu argumen / paramater yang merupakan
+     friendId / id teman yang di klik
+  2. Di dalamnya kita menggunakan setter function setSelectedFriend
+  3. setSelectedFriend memiliki nilai awal null
+  4. Logika dari setSelectedFriend adalah, jika state variable selectedFriend
+     sama dengan paramater / argument yang diterima oleh function ini maka
+     buat value dari selectedFriend menjadi null
+  5. Jika tidak sama, maka jadikan id yang diterima oleh function ini sebagai
+     value dari state variable selected friend
+  */
   function checkCurrentFriend(friendId) {
-    setSelectedFriend(selectedFriend === friendId ? null : friendId);
+    setSelectedFriend((currentFriend) =>
+      currentFriend === friendId ? null : friendId
+    );
+    setShowAddFriend(false);
+    resetSplitBill();
   }
 
   /*
@@ -93,6 +113,7 @@ export default function App() {
         }
       })
     );
+    setSelectedFriend(false);
   }
 
   /*
@@ -117,7 +138,6 @@ export default function App() {
           setSelectedFriend={setSelectedFriend}
           checkCurrentFriend={checkCurrentFriend}
           selectedFriend={selectedFriend}
-          resetSplitBill={resetSplitBill}
         />
         {showAddFriend && (
           <FormAddFriend
@@ -128,10 +148,7 @@ export default function App() {
             onHandleAddFriend={handleAddFriend}
           />
         )}
-        <Button
-          eventHandlerFunction={handleShowFriend}
-          resetSplitBill={resetSplitBill}
-        >
+        <Button eventHandlerFunction={handleShowFriend}>
           {showAddFriend ? "Close" : "Add Friend"}
         </Button>
       </div>

@@ -6,7 +6,6 @@ export function FriendsList({
   setSelectedFriend,
   checkCurrentFriend,
   selectedFriend,
-  resetSplitBill,
 }) {
   return (
     <ul>
@@ -18,7 +17,6 @@ export function FriendsList({
           setSelectedFriend={setSelectedFriend}
           checkCurrentFriend={checkCurrentFriend}
           selectedFriend={selectedFriend}
-          resetSplitBill={resetSplitBill}
         />
       ))}
     </ul>

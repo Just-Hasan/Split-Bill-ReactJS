@@ -6,14 +6,18 @@ export function Friend({
   onDeleteFriend,
   checkCurrentFriend,
   selectedFriend,
-  resetSplitBill,
 }) {
   const [showDelete, setShowDelete] = useState(false);
   return (
     <li
+      style={
+        selectedFriend === friend.id
+          ? { backgroundColor: "#fff4e6" }
+          : { backgroundColor: "" }
+      }
       onMouseEnter={() => setShowDelete(() => !showDelete)}
       onMouseLeave={() => setShowDelete(() => !showDelete)}
-      className="friend-item"
+      className={`friend-item`}
     >
       <img src={friend.image} alt={friend.name} />
       <h3>{friend.name}</h3>
@@ -28,11 +32,18 @@ export function Friend({
           {friend.name} owe you {friend.balance}$
         </p>
       )}
+      {/*
+      /////////////////////////////////////[Select / Close button Logic]
+      1. Ketika di klik button ini akan memanggil function checkCurrentFriend()
+      2. Kita memasukan id dari teman yang sedang kita click dengan menggunakan
+         property id (friend.id)
+      
+      Reminder : 'friend' adalah object yang kita dapat hasil dari rendered list
+      */}
       <button
         className="button"
         onClick={() => {
           checkCurrentFriend(friend.id);
-          resetSplitBill();
         }}
       >
         {friend.id === selectedFriend ? "Close" : "Select"}

@@ -8,6 +8,9 @@ import { Button } from "./Button";
 4. JIka kita yang bayar maka kita menambahkan pengeluaran teman ke balance mereka, membuat
    seolah mereka ngutang
 5. Jika teman yang bayar maka kita mengurangkan balance mereka berdasarkan pengeluaran kita
+
+/////////////////////////////////////[Keterangan PROP]
+1. splitBillWith adalah prop yang berisi object dari teman yang kita pilih
 */
 export function FormSplitBill({
   splitBillWith,
@@ -36,7 +39,6 @@ export function FormSplitBill({
         className="form-split-bill"
         onSubmit={(e) => {
           e.preventDefault();
-          console.log("Siu");
         }}
       >
         <h2>Split a bill with {splitBillWith.name}</h2>
@@ -44,7 +46,9 @@ export function FormSplitBill({
         <input
           type="number"
           value={bill}
-          onChange={(e) => setBill(+e.target.value)}
+          onChange={(e) =>
+            setBill(+e.target.value < 0 ? bill : +e.target.value)
+          }
         ></input>
 
         <label>Your Expenses</label>
@@ -52,13 +56,8 @@ export function FormSplitBill({
           type="number"
           value={myBill}
           onChange={(e) => {
-            if (myBill < 0) {
-              setMyBill(0);
-            } else if (myBill >= bill) {
-              setMyBill(myBill - 1);
-            } else {
-              setMyBill(+e.target.value);
-            }
+            if (e.target.value < 0) return;
+            setMyBill(+e.target.value > bill ? myBill : +e.target.value);
           }}
         ></input>
 
