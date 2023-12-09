@@ -20,6 +20,7 @@ export function FormSplitBill({
   myBill,
   setMyBill,
   whosPaying,
+  selectedFriend,
   setWhosPaying,
 }) {
   function resetSplitBillFunction() {
@@ -40,6 +41,7 @@ export function FormSplitBill({
         onSubmit={(e) => {
           e.preventDefault();
         }}
+        key={selectedFriend}
       >
         <h2>Split a bill with {splitBillWith.name}</h2>
         <label>Bill Value</label>

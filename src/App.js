@@ -76,7 +76,7 @@ export default function App() {
   const [selectedFriend, setSelectedFriend] = useState(null);
   const splitBillWith = friends.find((friend) => friend.id === selectedFriend);
   console.log(splitBillWith);
-
+  console.log(selectedFriend);
   /*
   /////////////////////////////////////[checkCurrentFriend] Logic :
   1. Function ini menerima satu argumen / paramater yang merupakan
@@ -156,6 +156,7 @@ export default function App() {
         splitBillWith={splitBillWith}
         updateBalance={updateBalance}
         bill={bill}
+        selectedFriend={selectedFriend}
         setBill={setBill}
         myBill={myBill}
         setMyBill={setMyBill}
